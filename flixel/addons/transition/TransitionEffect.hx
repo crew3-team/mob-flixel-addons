@@ -24,6 +24,7 @@ class TransitionEffect extends FlxSpriteGroup
 	public function new(data:TransitionData)
 	{
 		_data = data;
+		camera = TransitionData.camera;
 		super();
 	}
 
@@ -62,9 +63,8 @@ class TransitionEffect extends FlxSpriteGroup
 		finished = true;
 		if (finishCallback != null)
 		{
-			var callback = finishCallback;
+			finishCallback();
 			finishCallback = null;
-			callback();
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package flixel.addons.transition;
 
+import flixel.FlxCamera;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
@@ -8,7 +9,8 @@ import flixel.util.FlxColor;
 import flixel.system.FlxAssets.FlxGraphicAsset;
 import flixel.util.FlxDestroyUtil.IFlxDestroyable;
 
-enum abstract TransitionType(String)
+@:enum
+abstract TransitionType(String)
 {
 	var NONE = "none";
 	var TILES = "tiles";
@@ -35,6 +37,28 @@ class TransitionData implements IFlxDestroyable
 	public var direction:FlxPoint;
 	public var tweenOptions:TweenOptions;
 	public var region:FlxRect;
+
+	/**
+	 * By default this just refers to the first entry in the `FlxG.cameras.list`
+	 * array but you can do what you like with it.
+	 */
+	private static var _camera:FlxCamera;
+
+	/**
+	 * By default this just refers to the first entry in the `FlxG.cameras.list`
+	 * array but you can do what you like with it.
+	 */
+	public static var camera(get, set):FlxCamera;
+
+	private static function get_camera()
+	{
+		return _camera == null || _camera.flashSprite == null ? FlxG.camera : _camera;
+	}
+
+	private static function set_camera(v:FlxCamera)
+	{
+		return _camera = v;
+	}
 
 	public function destroy():Void
 	{
