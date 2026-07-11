@@ -1,6 +1,6 @@
 package flixel.addons.nape;
 
-import flash.display.BitmapData;
+import openfl.display.BitmapData;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.system.ui.FlxSystemButton;
@@ -14,7 +14,7 @@ import nape.space.Space;
 import nape.util.ShapeDebug;
 
 @:bitmap("assets/images/napeDebug.png")
-private class GraphicNapeDebug extends BitmapData {}
+class GraphicNapeDebug extends BitmapData {}
 #end
 
 /**

@@ -1,6 +1,6 @@
 package flixel.addons.transition;
 
-import flash.display.BitmapData;
+import openfl.display.BitmapData;
 import flixel.addons.transition.TransitionEffect;
 import flixel.addons.transition.FlxTransitionSprite.TransitionStatus;
 import flixel.FlxSprite;
@@ -14,7 +14,7 @@ import openfl.geom.Matrix;
 import openfl.geom.Point;
 
 @:keep @:bitmap("assets/images/transitions/diagonal_gradient.png")
-private class GraphicDiagonalGradient extends BitmapData {}
+class GraphicDiagonalGradient extends BitmapData {}
 
 /**
  *
@@ -157,14 +157,14 @@ class TransitionFade extends TransitionEffect
 		if (DirX == 0 && DirY == 0)
 		{
 			// no direction
-			s.makeGraphic(Std.int(region.width), Std.int(region.height), _data.color);
+			s.makeGraphic(Std.int(region.width), Std.int(region.height), _data.color, false, "transitionx0y0");
 		}
 		else if (DirX == 0 && Math.abs(DirY) > 0)
 		{
 			// vertical wipe
 			locY = DirY > 0 ? region.height : 0;
 			angle = DirY > 0 ? 90 : 270;
-			s.makeGraphic(1, Std.int(region.height * 2), _data.color);
+			s.makeGraphic(1, Std.int(region.height * 2), _data.color, false, "transitionx0y" + DirY);
 			pixels = s.pixels;
 			var gvert = FlxGradient.createGradientBitmapData(1, Std.int(region.height), [_data.color, FlxColor.TRANSPARENT], 1, angle);
 			pixels.copyPixels(gvert, gvert.rect, new Point(0, locY));
@@ -177,7 +177,7 @@ class TransitionFade extends TransitionEffect
 			// horizontal wipe
 			locX = DirX > 0 ? region.width : 0;
 			angle = DirX > 0 ? 0 : 180;
-			s.makeGraphic(Std.int(region.width * 2), 1, _data.color);
+			s.makeGraphic(Std.int(region.width * 2), 1, _data.color, false, "transitionx" + DirX + "y0");
 			pixels = s.pixels;
 			var ghorz = FlxGradient.createGradientBitmapData(Std.int(region.width), 1, [_data.color, FlxColor.TRANSPARENT], 1, angle);
 			pixels.copyPixels(ghorz, ghorz.rect, new Point(locX, 0));

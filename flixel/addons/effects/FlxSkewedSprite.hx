@@ -1,6 +1,6 @@
 package flixel.addons.effects;
 
-import flash.geom.Matrix;
+import openfl.geom.Matrix;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -49,8 +49,22 @@ class FlxSkewedSprite extends FlxSprite
 
 	override function drawComplex(camera:FlxCamera):Void
 	{
-		_frame.prepareMatrix(_matrix, FlxFrameAngle.ANGLE_0, checkFlipX(), checkFlipY());
+		_frame.prepareMatrix(_matrix, FlxFrameAngle.ANGLE_0, checkFlipX() != camera.flipX, checkFlipY() != camera.flipY);
 		_matrix.translate(-origin.x, -origin.y);
+
+		if (frameOffsetAngle != null && frameOffsetAngle != angle)
+		{
+			var angleOff = (frameOffsetAngle - angle) * FlxAngle.TO_RAD;
+			var cos = Math.cos(angleOff);
+			var sin = Math.sin(angleOff);
+			// cos doesnt need to be negated
+			_matrix.rotateWithTrig(cos, -sin);
+			_matrix.translate(-frameOffset.x, -frameOffset.y);
+			_matrix.rotateWithTrig(cos, sin);
+		}
+		else
+			_matrix.translate(-frameOffset.x, -frameOffset.y);
+
 		_matrix.scale(scale.x, scale.y);
 
 		if (matrixExposed)
@@ -72,12 +86,18 @@ class FlxSkewedSprite extends FlxSprite
 		}
 
 		getScreenPosition(_point, camera).subtractPoint(offset);
-		_point.addPoint(origin);
-		if (isPixelPerfectRender(camera))
-			_point.floor();
-
+		_point.add(origin.x, origin.y);
 		_matrix.translate(_point.x, _point.y);
-		camera.drawPixels(_frame, framePixels, _matrix, colorTransform, blend, antialiasing);
+
+		if (isPixelPerfectRender(camera))
+		{
+			_matrix.tx = Math.floor(_matrix.tx);
+			_matrix.ty = Math.floor(_matrix.ty);
+		}
+
+		doAdditionalMatrixStuff(_matrix, camera);
+
+		camera.drawPixels(_frame, framePixels, _matrix, colorTransform, blend, antialiasing, shaderEnabled ? shader : null);
 	}
 
 	function updateSkewMatrix():Void

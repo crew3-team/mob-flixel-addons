@@ -5,9 +5,13 @@ import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.system.FlxAssets;
 import flixel.text.FlxText;
+#if (flixel >= "5.3.0")
+import flixel.sound.FlxSound;
+#else
 import flixel.system.FlxSound;
+#end
 import flixel.math.FlxRandom;
-import flash.media.Sound;
+import openfl.media.Sound;
 
 #if !flash
 @:sound("assets/sounds/type.ogg")
@@ -279,7 +283,6 @@ class FlxTypeText extends FlxText
 	 * @param	ForceRestart	Whether or not to start this animation over if currently animating; false by default.
 	 * @param	SkipKeys		An array of keys as string values (e.g. `[FlxKey.SPACE, FlxKey.L]`) that will advance the text. Can also be set separately.
 	 * @param	Callback		An optional callback function, to be called when the erasing animation is complete.
-	 * @param	Params			Optional parameters to pass to the callback function.
 	 */
 	public function erase(?Delay:Float, ForceRestart:Bool = false, ?SkipKeys:Array<FlxKey>, ?Callback:Void->Void):Void
 	{

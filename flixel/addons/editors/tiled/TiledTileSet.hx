@@ -1,6 +1,6 @@
 package flixel.addons.editors.tiled;
 
-import flash.geom.Rectangle;
+import openfl.geom.Rectangle;
 import flixel.util.typeLimit.OneOfTwo;
 import openfl.Assets;
 import openfl.utils.ByteArray;
@@ -259,5 +259,5 @@ class TiledTileSet
 	}
 }
 
-private typedef ValidByteArray = #if lime_legacy ByteArray #else ByteArrayData #end;
+typedef ValidByteArray = #if lime_legacy ByteArray #else ByteArrayData #end;
 typedef FlxTiledTileAsset = OneOfTwo<Access, ValidByteArray>;
